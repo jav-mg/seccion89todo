@@ -1,0 +1,32 @@
+body {    
+    margin: 0;    
+    background-color: #f0efe9; 
+}
+
+.encabezado {
+    text-align: center;
+}
+
+.cuerpo {    
+    min-height: 200px;
+    background-color: white;
+    max-width: 600px;
+    margin: auto;
+    border-radius: 20px;
+}
+
+.taskName {
+    padding-top: 9px;
+    padding-bottom: 9px;
+    height: 38px;    
+    width: 416px;    
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: capitalize;
+}
+
+.striked {
+    text-decoration: line-through;
+}

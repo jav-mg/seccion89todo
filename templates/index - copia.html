@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        
+        <title>Document</title>
+    </head>
+
+    <body>
+        {# -- TITLE -- #}
+        <div class="encabezado">
+            <div class="display-4 mb-0">Todo list</div>
+            <div class="fst-italic text-muted">Build a todo list website.</div>
+        </div>
+        
+        <div class="cuerpo mt-5 p-3">
+            
+            {# -- NEW TASK -- #}
+            <form method="post" action="{{ url_for('saveTask') }}">
+                <div class="input-group mb-3">               
+                    <input type="text" class="form-control" name="task" placeholder="New Task">
+                    <div class="input-group-append">                        
+                        <button id="submit" type="submit" class="btn btn-primary">+ Add</button>                                                
+                    </div>                
+                </div>
+            </form>
+        
+            {# -- TASK LIST -- #}
+            {% for task in tasks %}  
+            <div class="input-group mt-2 pt-2 {% if loop.index > 1 %} border-top {% endif %}">
+                <div class="taskName {% if task['task_status'] %} striked {% endif %}"> {{loop.index}}. {{ task['task_name'] }}</div>
+                <div class="input-group-prepend">
+                    <a href="{{ url_for('updateTask', id=task['task_id']) }}" class="btn btn-outline-primary">Done!</a>
+                    <button type="button" class="btn btn-danger boton" id="miBoton" value="{{ task['task_id'] }}" data-bs-toggle="modal" data-bs-target="#confirmModal">Delete</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {# -- MODAL CONFIRMACION -- #}
+        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Delete Task ...now!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    Are you sure?
+
+                    {# Formulario para eliminar el elemento #}
+                    <form id="eliminarForm" action="{{ url_for('eliminarTask') }}" method="post">
+                        <button type="submit" class="btn btn-danger">Yes!</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, no, no...</button>
+                        <input hidden id="formId" name="id" value=""></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+
+    {# JS SCRIPTS #}
+    <script src="{{ url_for('static', filename='siteScripts/scripts.js') }}"></script>
+</html>
